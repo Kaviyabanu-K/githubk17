@@ -7,70 +7,87 @@
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
+<!-- Cute Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:linear-gradient(135deg,#ff758c,#ff7eb3);
-    display:flex;
-    justify-content:center;
-    padding:30px;
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffd6e0, #ffe6f0);
+    display: flex;
+    justify-content: center;
+    padding: 30px;
 }
 
-.container{
-    width:700px;
-    background:white;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 10px 20px rgba(0,0,0,.2);
+.container {
+    width: 700px;
+    background: #fffafc;
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 25px rgba(255, 153, 204, 0.3);
+    border: 3px dashed #ff99cc;
+    animation: fadeIn 2s ease-in-out;
 }
 
-h1,h2{
-    text-align:center;
-    color:#ff3366;
+h1, h2 {
+    text-align: center;
+    color: #ff6699;
+    font-family: 'Pacifico', cursive;
 }
 
-.question{
-    margin:25px 0;
+.question {
+    margin: 25px 0;
 }
 
-button{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:30px;
-    background:#ff3366;
-    color:white;
-    font-size:18px;
-    cursor:pointer;
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #ff99cc, #ff6699);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-button:hover{
-    background:#e6005c;
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 153, 204, 0.6);
 }
 
-#result{
-    margin-top:30px;
-    text-align:center;
+#result {
+    margin-top: 30px;
+    text-align: center;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
-#typewriter{
-    font-size:20px;
-    line-height:1.8;
-    white-space:pre-line;
+#typewriter {
+    font-size: 20px;
+    line-height: 1.8;
+    white-space: pre-line;
+    font-family: 'Dancing Script', cursive;
+    color: #ff3366;
 }
 
-#loveBtn{
-    display:none;
-    margin-top:25px;
+#loveBtn {
+    display: none;
+    margin-top: 25px;
 }
 
-#finalMessage{
-    display:none;
-    margin-top:20px;
-    font-size:22px;
-    color:#ff3366;
-    line-height:1.8;
+#finalMessage {
+    display: none;
+    margin-top: 20px;
+    font-size: 22px;
+    color: #ff3366;
+    line-height: 1.8;
+    font-family: 'Dancing Script', cursive;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
 </style>
 </head>
@@ -79,7 +96,6 @@ button:hover{
 
 <div class="container">
 <h1>🎂 Happy Birthday My Sweet Husband🧿💗</h1>
-
 
 <p style="text-align:center;">
 Before reading your birthday surprise, answer these questions about us. 🥹💕
@@ -132,46 +148,32 @@ Before reading your birthday surprise, answer these questions about us. 🥹💕
 </div>
 
 <script>
-
 function checkQuiz(){
+    let score=0;
+    for(let i=1;i<=5;i++){
+        let ans=document.querySelector('input[name="q'+i+'"]:checked');
+        if(!ans){
+            alert("❤️ Please answer every question.");
+            return;
+        }
+        score+=Number(ans.value);
+    }
 
-let score=0;
+    if(score===5){
+        confetti({
+            particleCount:300,
+            spread:180,
+            origin:{y:0.6}
+        });
 
-for(let i=1;i<=5;i++){
+        document.getElementById("result").innerHTML=`
+        <h2>🎉 Congratulations My Love ❤️</h2>
+        <p id="typewriter"></p>
+        <button id="loveBtn" onclick="showFinalMessage()">💌 Open My Heart</button>
+        <div id="finalMessage"></div>
+        `;
 
-let ans=document.querySelector('input[name="q'+i+'"]:checked');
-
-if(!ans){
-alert("❤️ Please answer every question.");
-return;
-}
-
-score+=Number(ans.value);
-
-}
-
-if(score===5){
-
-confetti({
-particleCount:300,
-spread:180,
-origin:{y:0.6}
-});
-
-document.getElementById("result").innerHTML=`
-<h2>🎉 Congratulations My Love ❤️</h2>
-
-
-<p id="typewriter"></p>
-
-<button id="loveBtn" onclick="showFinalMessage()">
-💌 Open My Heart
-</button>
-
-<div id="finalMessage"></div>
-`;
-
-const message=`Happy Birthday to the most amazing person in my life. ❤️
+        const message=`Happy Birthday to the most amazing person in my life. ❤️
 
 Today is all about celebrating you.
 
@@ -187,43 +189,27 @@ Happy Birthday, my handsome.
 
 I love you today, tomorrow, and forever.`;
 
-let i=0;
-
-function typeWriter(){
-
-if(i<message.length){
-
-document.getElementById("typewriter").innerHTML+=message.charAt(i);
-
-i++;
-
-setTimeout(typeWriter,40);
-
-}else{
-
-document.getElementById("loveBtn").style.display="block";
-
-}
-
-}
-
-typeWriter();
-
-}else{
-
-document.getElementById("result").innerHTML=
-"<h2>🥺 You scored "+score+"/5</h2><p>Almost there! Try again to unlock your birthday surprise. ❤️</p>";
-
-}
-
+        let i=0;
+        function typeWriter(){
+            if(i<message.length){
+                document.getElementById("typewriter").innerHTML+=message.charAt(i);
+                i++;
+                setTimeout(typeWriter,40);
+            }else{
+                document.getElementById("loveBtn").style.display="block";
+            }
+        }
+        typeWriter();
+    }else{
+        document.getElementById("result").innerHTML=
+        "<h2>🥺 You scored "+score+"/5</h2><p>Almost there! Try again to unlock your birthday surprise. ❤️</p>";
+    }
 }
 
 function showFinalMessage(){
-
-document.getElementById("finalMessage").style.display="block";
-
-document.getElementById("finalMessage").innerHTML=`
-❤️🥹
+    document.getElementById("finalMessage").style.display="block";
+    document.getElementById("finalMessage").innerHTML=`
+    ❤️🥹
 
 If I could give you the whole world today, I would.
 
@@ -234,16 +220,14 @@ You are my peace, my happiness, and my favorite person.
 Happy Birthday, my forever. 🎂❤️
 
 I Love You Endlessly. ♾️
-`;
-
-confetti({
-particleCount:200,
-spread:120
-});
-
+    `;
+    confetti({
+        particleCount:200,
+        spread:120
+    });
 }
-
 </script>
 
 </body>
 </html>
+
