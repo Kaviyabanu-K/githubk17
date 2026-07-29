@@ -7,14 +7,14 @@
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
-<!-- Cute Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<!-- Fonts: Nunito for quiz, Great Vibes for letter -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ffd6e0, #ffe6f0);
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #ffe6f0, #fff0f5);
     display: flex;
     justify-content: center;
     padding: 30px;
@@ -33,11 +33,12 @@ body {
 h1, h2 {
     text-align: center;
     color: #ff6699;
-    font-family: 'Pacifico', cursive;
+    font-family: 'Nunito', sans-serif;
 }
 
 .question {
     margin: 25px 0;
+    font-size: 18px;
 }
 
 button {
@@ -50,6 +51,7 @@ button {
     font-size: 18px;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Nunito', sans-serif;
 }
 
 button:hover {
@@ -57,32 +59,39 @@ button:hover {
     box-shadow: 0 0 15px rgba(255, 153, 204, 0.6);
 }
 
-#result {
-    margin-top: 30px;
-    text-align: center;
-    animation: fadeIn 1.5s ease-in-out;
+#quizPage, #messagePage {
+    display: none;
 }
 
+#quizPage.active, #messagePage.active {
+    display: block;
+}
+
+/* Letter typing font */
 #typewriter {
-    font-size: 20px;
+    font-size: 22px;
+    font-family: 'Nunito', sans-serif;
     line-height: 1.8;
     white-space: pre-line;
-    font-family: 'Dancing Script', cursive;
-    color: #ff3366;
+    color: #000;
 }
 
 #loveBtn {
     display: none;
     margin-top: 25px;
+    background: linear-gradient(135deg, #ff99cc, #ff6699);
+    font-size: 20px;
+    font-family: 'Nunito', sans-serif;
 }
 
 #finalMessage {
     display: none;
     margin-top: 20px;
-    font-size: 22px;
-    color: #ff3366;
+    font-size: 24px;
+    font-family: 'Nunito', sans-serif;
+    color: #000;
     line-height: 1.8;
-    font-family: 'Dancing Script', cursive;
+    
 }
 
 @keyframes fadeIn {
@@ -94,12 +103,10 @@ button:hover {
 
 <body>
 
-<div class="container">
+<!-- QUIZ PAGE -->
+<div id="quizPage" class="container active">
 <h1>🎂 Happy Birthday My Sweet Husband🧿💗</h1>
-
-<p style="text-align:center;">
-Before reading your birthday surprise, answer these questions about us. 🥹💕
-</p>
+<p style="text-align:center;">Before reading your birthday surprise, answer these questions about us. 🥹💕</p>
 
 <div class="question">
 <b>1. Who fell in love first? </b><br><br>
@@ -142,9 +149,14 @@ Before reading your birthday surprise, answer these questions about us. 🥹💕
 </div>
 
 <button onclick="checkQuiz()">🎁 Unlock My Birthday Surprise</button>
+</div>
 
-<div id="result"></div>
-
+<!-- MESSAGE PAGE -->
+<div id="messagePage" class="container">
+  <h2> Dear Raj ❤️</h2>
+  <p id="typewriter"></p>
+  <button id="loveBtn" onclick="showFinalMessage()">💌 Open My Heart</button>
+  <div id="finalMessage"></div>
 </div>
 
 <script>
@@ -160,24 +172,15 @@ function checkQuiz(){
     }
 
     if(score===5){
-        confetti({
-            particleCount:300,
-            spread:180,
-            origin:{y:0.6}
-        });
-
-        document.getElementById("result").innerHTML=`
-        <h2>🎉 Congratulations My Love ❤️</h2>
-        <p id="typewriter"></p>
-        <button id="loveBtn" onclick="showFinalMessage()">💌 Open My Heart</button>
-        <div id="finalMessage"></div>
-        `;
+        confetti({particleCount:300, spread:180, origin:{y:0.6}});
+        document.getElementById("quizPage").classList.remove("active");
+        document.getElementById("messagePage").classList.add("active");
 
         const message=`Happy Birthday to the most amazing person in my life. ❤️
 
 Today is all about celebrating you.
 
-Thank you for loving me, caring for me, making me smile, and standing beside me through every chapter of my life.
+Even during the toughest moments, my heart will continue to wish the best for you because your happiness has become a part of mine. Loving you has never felt like a responsibility—it has always felt like the most beautiful blessing in my life
 
 You make ordinary days feel magical, and every moment with you becomes a beautiful memory.
 
@@ -201,15 +204,13 @@ I love you today, tomorrow, and forever.`;
         }
         typeWriter();
     }else{
-        document.getElementById("result").innerHTML=
-        "<h2>🥺 You scored "+score+"/5</h2><p>Almost there! Try again to unlock your birthday surprise. ❤️</p>";
+        alert("🥺 You scored "+score+"/5. Try again to unlock your birthday surprise ❤️");
     }
 }
 
 function showFinalMessage(){
     document.getElementById("finalMessage").style.display="block";
     document.getElementById("finalMessage").innerHTML=`
-    ❤️🥹
 
 If I could give you the whole world today, I would.
 
@@ -219,15 +220,14 @@ You are my peace, my happiness, and my favorite person.
 
 Happy Birthday, my forever. 🎂❤️
 
-I Love You Endlessly. ♾️
+I Love You Endlessly. ♾️🤍
     `;
-    confetti({
-        particleCount:200,
-        spread:120
-    });
+    confetti({particleCount:200, spread:120});
 }
 </script>
 
 </body>
 </html>
+
+
 
